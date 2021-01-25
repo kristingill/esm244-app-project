@@ -27,7 +27,7 @@ server <- function(input, output) {
   ls_reactive <- reactive({
 
     sea_otter_data %>%
-      filter(life_stage %in% input$pick_species)
+      filter(life_stage %in% input$pick_life_stage)
   })
 
   output$ls_plot <- renderPlot(
