@@ -1,0 +1,48 @@
+---
+title: "wrangling the data"
+author: "Kristin Gill"
+date: "1/24/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+```{r}
+sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_1985_2017.csv")) %>% 
+  clean_names() %>% 
+  pivot_longer(cols = 3:20, names_to = "life_stage", values_to = "count") %>% 
+  select(!total) %>% 
+  mutate(life_stage = case_when(
+    life_stage == "pups_f" ~ "pups:female",
+    life_stage == "juvenile_f" ~ "juvenile:female",
+    life_stage == "sub_adult_f" ~ "subadult:female",
+    life_stage == "adult_f" ~ "adult:female",
+    life_stage == "old_adult_f" ~ "old_adult:female",
+    life_stage == "unknown_f" ~ "unknown:female",
+    life_stage == "pups_m" ~ "pups:male",
+    life_stage == "juvenile_m" ~ "juvenile:male",
+    life_stage == "sub_adult_m" ~ "subadult:male",
+    life_stage == "adult_m" ~ "adult:male",
+    life_stage == "old_adult_m" ~ "old_adult:male",
+    life_stage == "unknown_m" ~ "unknown:male",
+    life_stage == "pups_u" ~ "pups:unknown",
+    life_stage == "juvenile_u" ~ "juvenile:unknown",
+    life_stage == "sub_adult_u" ~ "subadult:unknown",
+    life_stage == "adult_u" ~ "adult:unknown",
+    life_stage == "old_adult_u" ~ "old_adult:unknown",
+    life_stage == "unknown_u" ~ "unknown:unknown"
+  )) %>% 
+  separate(life_stage, c("life_stage", "sex"))
+
+ggplot(data = sea_otter_data, aes(x = year,
+                                  y = count)) +
+      geom_col(aes(fill = life_stage))
+```
+
+
+
