@@ -12,6 +12,7 @@ library(here)
 library(janitor)
 ```
 
+Sea Otter Strandings
 ```{r}
 sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_1985_2017.csv")) %>% 
   clean_names() %>% 
@@ -44,5 +45,25 @@ ggplot(data = sea_otter_data, aes(x = year,
       geom_col(aes(fill = life_stage))
 ```
 
+Sea Otter Annual Census
+```{r}
+census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summary_1985_2014.csv")) %>% 
+  clean_names()
+```
 
+Stranded Sea Otter by Geographic Location
+```{r}
+geog_sea_otter <- read_csv(here("data", "Table1_StrandedSeaOtter_byGeographicAreas_1985_2017.csv")) %>% 
+  clean_names() %>% 
+  select(!total_strandings) %>% 
+  pivot_longer(cols = 2:15, names_to = "location", values_to = "count")
+```
+
+Stranded Sea Otter by Year and Month
+```{r}
+pop_sea_otter <- read_csv(here("data", "Table3_StrandedSeaOtter_byYearAndMonth_1985_2017.csv")) %>% 
+  clean_names() %>% 
+  select(!total) %>% 
+  pivot_longer(cols = 3:14, names_to = "month", values_to = "count")
+```
 
