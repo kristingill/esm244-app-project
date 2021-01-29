@@ -72,5 +72,8 @@ pop_sea_otter <- read_csv(here("data", "Table3_StrandedSeaOtter_byYearAndMonth_1
 Sea otter locations
 ```{r}
 locations_sea_otters <- read_sf(here("data", "shapefile_2019", "Census_sum_2019.shp"))
+
+ggplot(data = locations_sea_otters) +
+  geom_sf()
 ```
 
