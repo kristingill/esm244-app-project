@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(here)
 library(janitor)
+library(rgdal)
 ```
 
 Sea Otter Strandings
@@ -65,5 +66,12 @@ pop_sea_otter <- read_csv(here("data", "Table3_StrandedSeaOtter_byYearAndMonth_1
   clean_names() %>% 
   select(!total) %>% 
   pivot_longer(cols = 3:14, names_to = "month", values_to = "count")
+```
+
+Sea otter locations
+```{r}
+locations_sea_otters <- readOGR(
+  dsn = "~/data/shapefile_2019/Census_sum_2019",
+  layer = "Census_sum_2019")
 ```
 
