@@ -2,16 +2,21 @@
 title: "wrangling the data"
 author: "Kristin Gill"
 date: "1/24/2021"
-output: html_document
+output:
+  html_document:
+    theme: darkly
+    code_folding: hide
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(here)
 library(janitor)
 library(rgdal)
 library(sf)
+library(tmap)
 ```
 
 Sea Otter Strandings
@@ -71,9 +76,17 @@ pop_sea_otter <- read_csv(here("data", "Table3_StrandedSeaOtter_byYearAndMonth_1
 
 Sea otter locations
 ```{r}
-locations_sea_otters <- read_sf(here("data", "shapefile_2019", "Census_sum_2019.shp"))
+locations_sea_otters <- read_sf(here("data", "shapefile_2019", "Census_sum_2019.shp")) %>% 
+  clean_names()
 
 ggplot(data = locations_sea_otters) +
-  geom_sf()
+  geom_sf(aes(color = zone))
+
+tmap_mode("view")
+
+tm_shape(locations_sea_otters) +
+  tm_polygons("lin_dens", border.alpha = 0) +
+  tm_fill("lin_dens") +
+  tm_borders(alpha = 0)
 ```
 
