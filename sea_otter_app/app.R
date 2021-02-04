@@ -29,7 +29,8 @@ ui <- fluidPage(theme = "ocean.css",
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
-               tabPanel("Thing 3")
+               tabPanel("Widget 3"),
+               tabPanel("Widget 4")
                )
 )
 
