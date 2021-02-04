@@ -1,11 +1,11 @@
-# sea otter app
+# Sea otter app
 
 library(tidyverse)
 library(shiny)
 library(here)
 library(janitor)
 
-ui <- fluidPage(theme = "ocean.css",
+ui <- fluidPage(includeCSS("www/ocean.css"),
 
     navbarPage("Southern Sea Otters",
                tabPanel("Strandings by Life Stage",
@@ -29,8 +29,9 @@ ui <- fluidPage(theme = "ocean.css",
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
-               tabPanel("Widget 3"),
-               tabPanel("Widget 4")
+               tabPanel("Strandings Map"),
+               tabPanel("Widget 4"),
+               tabPanel("Summary")
                )
 )
 
@@ -49,7 +50,7 @@ server <- function(input, output) {
       theme_minimal() +
       labs(x = "Time (Years)",
            y = "Number of Sea Otter Strandings",
-           title = "Number of Sea Otter Strandings Over Time, 1985-2017")
+           title = "Number of Sea Otter Strandings Over Time (1985-2017)")
   )
 
   geog_reactive <- reactive({
@@ -62,7 +63,9 @@ server <- function(input, output) {
   output$geog_plot <- renderPlot(
     ggplot(data = geog_reactive(), aes(x = location,
                                      y = count)) +
-      geom_col() +
+      geom_col(color = "darkslategrey", fill = "darkslategray3") +
+      labs(x = "Location", y = "Count") +
+      coord_flip() +
       theme_minimal()
   )
 

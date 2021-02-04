@@ -1,5 +1,20 @@
-/* MY THEME */
+/* Sea Otters Shiny App Theme */
 
 body {
-  background-color: teal;
+  background-color: mediumaquamarine;
+  font-family: verdana;
+  font-size: 16px;
+  color: darkslategray; /* text color */
 }
+
+/* Change header text */
+h1, h2, h3 {
+  font-family: verdana;
+  color: darkslategrey;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 14px;
+  color: darkslategrey;
