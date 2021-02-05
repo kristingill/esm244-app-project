@@ -1,6 +1,6 @@
 ---
-title: "wrangling the data"
-author: "Kristin Gill"
+title: "Wrangling the Data"
+author: "Kristin Gill, Larissa Neilson"
 date: "1/24/2021"
 output:
   html_document:
