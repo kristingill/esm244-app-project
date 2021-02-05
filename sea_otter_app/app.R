@@ -13,6 +13,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                             sidebarPanel("Sea Otter Stranding Life Stage",
                                          checkboxGroupInput(inputId = "pick_life_stage",
                                                             label = "Choose Life Stage:",
+                                                            selected = "pups",
                                                             choices = unique(sea_otter_data$life_stage))),
                             mainPanel(plotOutput("ls_plot"))
                         )
@@ -25,11 +26,23 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    min = 1985,
                                                    max = 2014,
                                                    value = 1985,
-                                                   animate = TRUE)),
+                                                   animate = TRUE,
+                                                   sep = "")),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
-               tabPanel("Strandings Map"),
+               tabPanel("Strandings Map",
+                        sidebarLayout(
+                          sidebarPanel("Sea Otter Linear Density",
+                                       selectInput(inputId = "pick_density",
+                                                   label = "Select Linear Density",
+                                                   multiple = TRUE,
+                                                   selected = 13.9,
+                                                   choices = levels(factor(locations_sea_otters$lin_dens))
+                                                   )),
+                          mainPanel(tmapOutput("density_plot"))
+                        )
+                        ),
                tabPanel("Widget 4"),
                tabPanel("Summary")
                )
@@ -50,7 +63,8 @@ server <- function(input, output) {
       theme_minimal() +
       labs(x = "Time (Years)",
            y = "Number of Sea Otter Strandings",
-           title = "Number of Sea Otter Strandings Over Time (1985-2017)")
+           title = "Number of Sea Otter Strandings Over Time (1985-2017)") +
+      guides(fill=guide_legend(title="Life Stage"))
   )
 
   geog_reactive <- reactive({
@@ -61,12 +75,25 @@ server <- function(input, output) {
   })
 
   output$geog_plot <- renderPlot(
-    ggplot(data = geog_reactive(), aes(x = location,
+    ggplot(data = geog_reactive(), aes(x = reorder(location, count),
                                      y = count)) +
       geom_col(color = "darkslategrey", fill = "darkslategray3") +
-      labs(x = "Location", y = "Count") +
+      labs(x = "Location", y = "Number of Stranded Sea Otters") +
       coord_flip() +
       theme_minimal()
+  )
+
+  density_reactive <- reactive({
+
+    locations_sea_otters %>%
+      filter(lin_dens %in% input$pick_density)
+  })
+
+  output$density_plot <- renderTmap(
+    tm_shape(density_reactive()) +
+      tm_polygons("lin_dens", border.alpha = 0) +
+      tm_fill("lin_dens") +
+      tm_borders(alpha = 0)
   )
 
 }

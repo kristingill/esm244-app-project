@@ -17,6 +17,7 @@ library(janitor)
 library(rgdal)
 library(sf)
 library(tmap)
+library(lubridate)
 ```
 
 Sea Otter Strandings
@@ -49,7 +50,7 @@ sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_198
 
 ggplot(data = sea_otter_data, aes(x = year,
                                   y = count)) +
-      geom_col(aes(fill = life_stage))
+      geom_col(aes(fill = "life_stage")) 
 ```
 
 Sea Otter Annual Census
@@ -63,7 +64,25 @@ Stranded Sea Otter by Geographic Location
 geog_sea_otter <- read_csv(here("data", "Table1_StrandedSeaOtter_byGeographicAreas_1985_2017.csv")) %>% 
   clean_names() %>% 
   select(!total_strandings) %>% 
-  pivot_longer(cols = 2:15, names_to = "location", values_to = "count")
+  pivot_longer(cols = 2:15, names_to = "location", values_to = "count") %>% 
+  mutate(year = as.character(year)) %>% 
+  mutate(location = case_when(
+    location == "north_of_pigeon_pt" ~ "North of Pigeon Point",
+    location == "pigeon_pt_to_capitola" ~ "Pigeon Point to Capitola",
+    location == "capitola_to_seaside" ~ "Capitola to Seaside",
+    location == "seaside_to_pt_lobos" ~ "Seaside to Point Lobos",
+    location == "pt_lobos_to_pt_sur" ~ "Point Lobos to Point Sur",
+    location == "pr_sur_to_dolan_rock" ~ "Point Sur to Dolan Rock",
+    location == "dolan_rock_to_c_san_martin" ~ "Dolan Rock to Cape San Martin",
+    location == "c_san_martin_to_san_simeon_point" ~ "Cape San Martin to San Simeon Point",
+    location == "san_simeon_pt_to_cayucos" ~ "San Simeon Point to Cayucos",
+    location == "cayucos_to_hazard_canyon" ~ "Cayucos to Hazard Canyon",
+    location == "hazard_canyon_to_pismo_beach" ~ "Hazard Canyon to Pismo Beach",
+    location == "pismo_beach_to_point_sal" ~ "Pismo Beach to Point Sal",
+    location == "pt_sal_to_pt_conception" ~ "Point Sal to Point Conception",
+    location == "se_of_pt_conception" ~ "Southeast of Point Conception"
+  )) %>% 
+  drop_na
 ```
 
 Stranded Sea Otter by Year and Month
@@ -74,13 +93,24 @@ pop_sea_otter <- read_csv(here("data", "Table3_StrandedSeaOtter_byYearAndMonth_1
   pivot_longer(cols = 3:14, names_to = "month", values_to = "count")
 ```
 
-Sea otter locations
+Sea otter Linear Density
 ```{r}
 locations_sea_otters <- read_sf(here("data", "shapefile_2019", "Census_sum_2019.shp")) %>% 
-  clean_names()
+  clean_names() %>% 
+  mutate_at(vars(lin_dens), funs(round(.,1)))
 
-ggplot(data = locations_sea_otters) +
-  geom_sf(aes(color = zone))
+
+st_crs(locations_sea_otters)
+
+california_cities <- read_sf(here("data", "tl_2016_06_place.shp")) %>%
+  clean_names() %>% 
+  filter(namelsad == c("Santa Cruz", "Capitola", "Seascape", "Point Lobos", "Cayucos", "Watsonville", "Monterrey", "Carmel", "Santa Barbara"))
+
+st_crs(california_cities)
+
+ggplot() +
+  geom_sf(data = locations_sea_otters, aes(color = zone)) +
+  geom_sf(data = california_cities)
 
 tmap_mode("view")
 
