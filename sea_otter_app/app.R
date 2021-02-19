@@ -43,7 +43,17 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
-               tabPanel("Widget 4"),
+               tabPanel("Population Over Time & Zone",
+                        sidebarLayout(
+                          sidebarPanel("Sea Otter Census",
+                                       selectInput(inputId = "pick_year_range",
+                                                   label = "Select Year Range",
+                                                   multiple = TRUE,
+                                                   selected = 1985,
+                                                   choices = levels(factor(sea_otter_pop$year))
+                                                   )),
+                          mainPanel(plotOutput("census_plot"))
+                        )),
                tabPanel("Summary",
                         sidebarLayout(
                           mainPanel(h2("About the App"),
@@ -104,6 +114,20 @@ server <- function(input, output) {
       tm_polygons("lin_dens", border.alpha = 0) +
       tm_fill("lin_dens") +
       tm_borders(alpha = 0)
+  )
+
+  year_range_reactive <- reactive({
+
+    sea_otter_pop %>%
+      filter(year %in% input$pick_year_range)
+  })
+
+  output$census_plot <- renderPlot(
+    ggplot(data = year_range_reactive(), aes(x = year, y = n)) +
+      geom_line(color = "darkseagreen4") +
+      labs(x = NULL, y = "Sea Otter Count") +
+      facet_wrap(~zone_code) +
+      theme_minimal()
   )
 
 }
