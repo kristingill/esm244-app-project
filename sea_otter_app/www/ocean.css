@@ -1,7 +1,7 @@
 /* Sea Otters Shiny App Theme */
 
 body {
-  background-color: mediumaquamarine;
+  background-color: lightcyan;
   font-family: verdana;
   font-size: 16px;
   color: darkslategray; /* text color */
@@ -19,3 +19,17 @@ p {
   font-size: 14px;
   color: darkslategrey;
 }
+
+.navbar{ background-color: paleturquoise;
+                           font-family: verdana;
+                           font-size: 16px;
+                           color: darkslategray;
+}
+
+.navbar-default .navbar-brand{color: darkslategray;}
+
+.navbar-nav li a:hover, .navbar-nav > .active > a {
+color: darkslategray !important;
+background-color: paleturquoise !important;
+}
+
