@@ -11,10 +11,11 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                tabPanel("Strandings by Life Stage",
                         sidebarLayout(
                             sidebarPanel("Sea Otter Stranding Life Stage",
-                                         checkboxGroupInput(inputId = "pick_life_stage",
-                                                            label = "Choose Life Stage:",
-                                                            selected = "pups",
-                                                            choices = unique(sea_otter_data$life_stage))),
+                                         selectInput(inputId = "pick_life_stage",
+                                                     label = "Choose Life Stage:",
+                                                     selected = "pups",
+                                                     multiple = TRUE,
+                                                     choices = unique(sea_otter_data$life_stage))),
                             mainPanel(plotOutput("ls_plot"))
                         )
                         ),
