@@ -47,14 +47,13 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
-               tabPanel("Population Over Time & Zone",
+               tabPanel("Census",
                         sidebarLayout(
-                          sidebarPanel("Sea Otter Census",
-                                       selectInput(inputId = "pick_year_range",
+                          sidebarPanel("Population Over Time by Zone",
+                                       checkboxGroupInput(inputId = "pick_year_range",
                                                    label = "Select Year Range",
-                                                   multiple = TRUE,
-                                                   selected = 1985,
-                                                   choices = levels(factor(sea_otter_pop$year))
+                                                   selected = 1985:2014,
+                                                   choices = unique(sea_otter_pop$year)
                                                    )),
                           mainPanel(plotOutput("census_plot"))
                         )),
