@@ -18,8 +18,6 @@ library(rgdal)
 library(sf)
 library(tmap)
 library(lubridate)
-library(tsibble)
-library(plotly)
 ```
 
 Sea Otter Strandings
@@ -64,21 +62,10 @@ sea_otter_pop <- census_sea_otter %>%
   group_by(year, zone_code) %>% 
   count(year)
 
-sea_otter_pop %>% 
-  as_tsibble(key = NULL, index = year)
-
 sea_otter_pop[is.na(sea_otter_pop)] <- 0
 
 sea_otter_pop %>% 
   ungroup()
-
- sea_otter_count <- ggplot(data = sea_otter_pop, aes(x = year, y = n)) +
-  geom_line() +
-  labs(x = "Year", y = "Sea Otter Count") +
-  facet_wrap(~zone_code) +
-  theme_minimal()
- 
- ggplotly(sea_otter_count)
 ```
 
 Stranded Sea Otter by Geographic Location
