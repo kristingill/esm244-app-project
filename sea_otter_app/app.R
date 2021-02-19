@@ -34,12 +34,16 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                tabPanel("Strandings Map",
                         sidebarLayout(
                           sidebarPanel("Sea Otter Linear Density",
-                                       selectInput(inputId = "pick_density",
-                                                   label = "Select Linear Density",
-                                                   multiple = TRUE,
-                                                   selected = 13.9,
-                                                   choices = levels(factor(locations_sea_otters$lin_dens))
-                                                   )),
+                                       sliderInput("range",
+                                                   inputId = "range",
+                                                   label = "Slide through Linear Density",
+                                                   min  = 1,
+                                                   max = 14,
+                                                   value = c(1,14),
+                                                   step = 1,
+                                                   round = TRUE,
+                                                   animate = FALSE,
+                                                   dragRange = TRUE)),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
@@ -106,7 +110,7 @@ server <- function(input, output) {
   density_reactive <- reactive({
 
     locations_sea_otters %>%
-      filter(lin_dens %in% input$pick_density)
+      filter(lin_dens %in% input$range[1]:input$range[2])
   })
 
   output$density_plot <- renderTmap(
