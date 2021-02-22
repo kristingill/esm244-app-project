@@ -58,7 +58,8 @@ Sea Otter Annual Census
 census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summary_1985_2014.csv")) %>% 
   clean_names()
 
-sea_otter_pop <- census_sea_otter %>% 
+sea_otter_pop <- census_sea_otter %>%
+  select(year, zone_code) %>% 
   group_by(year, zone_code) %>% 
   count(year)
 
