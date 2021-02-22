@@ -8,12 +8,27 @@ library(janitor)
 ui <- fluidPage(includeCSS("www/ocean.css"),
 
     navbarPage("Southern Sea Otters",
+               tabPanel("Summary",
+                        sidebarLayout(
+                          mainPanel(h2("About the App"),
+                                    p("This app helps visualize Southern Sea Otter stranding and linear density data. The data is from the U.S. Geological Survey."),
+                                    h2("Introduction"),
+                                    p("The Southern Sea Otter (Enhydra lutris nereis) is a threatened and depleted species. Sea otters play an important role in the ecosystem. Sea otters consume sea urchins, which means that the urchins cannot feed on kelp as much. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. Below is a map of the Southern sea otter current range."),
+                                    h3("Data Citation"),
+                                    p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
+                                    p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
+                          sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
+                                       fluid = TRUE,
+                                       img(src = "otters.jpg", height = 172, width = 350),
+                                       fluid = TRUE),
+
+                        )),
                tabPanel("Strandings by Life Stage",
                         sidebarLayout(
                             sidebarPanel("Sea Otter Stranding Life Stage",
                                          selectInput(inputId = "pick_life_stage",
                                                      label = "Choose Life Stage:",
-                                                     selected = "pups",
+                                                     selected = "Pups",
                                                      multiple = TRUE,
                                                      choices = unique(sea_otter_data$life_stage)),
                                          style = "background-color: azure;"),
@@ -34,12 +49,12 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
-               tabPanel("Strandings Map",
+               tabPanel("Population Density Map",
                         sidebarLayout(
                           sidebarPanel("Sea Otter Linear Density",
                                        sliderInput("range",
                                                    inputId = "range",
-                                                   label = "Slide through Linear Density",
+                                                   label = "Pick a Range",
                                                    min  = 1,
                                                    max = 14,
                                                    value = c(1,14),
@@ -61,22 +76,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    ),
                                        style = "background-color: azure;"),
                           mainPanel(plotOutput("census_plot"))
-                        )),
-               tabPanel("Summary",
-                        sidebarLayout(
-                          mainPanel(h2("About the App"),
-                                    p("This app helps visualize Southern Sea Otter stranding and linear density data. The data is from the U.S. Geological Survey."),
-                                    h2("Introduction"),
-                                    p("The Southern Sea Otter (Enhydra lutris nereis) is a threatened and depleted species. Sea otters play an important role in the ecosystem. Sea otters consume sea urchins, which means that the urchins cannot feed on kelp as much. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. Below is a map of the Southern sea otter current range."),
-                                    h3("Data Citation"),
-                                    p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
-                                    p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
-                          sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
-                                       fluid = TRUE,
-                                       img(src = "otters_jpg", height = 172, width = 400),
-                                       fluid = TRUE),
-
-               ))
+                        ))
 ))
 
 server <- function(input, output) {
@@ -95,6 +95,7 @@ server <- function(input, output) {
       labs(x = "Time (Years)",
            y = "Number of Sea Otter Strandings",
            title = "Number of Sea Otter Strandings Over Time (1985-2017)") +
+      scale_fill_manual(values = c("#33FFCC", "lightblue", "blue4", "blue2","#66CCCC", "blue3")) +
       guides(fill=guide_legend(title="Life Stage"))
   )
 

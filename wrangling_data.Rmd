@@ -27,24 +27,24 @@ sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_198
   pivot_longer(cols = 3:20, names_to = "life_stage", values_to = "count") %>% 
   select(!total) %>% 
   mutate(life_stage = case_when(
-    life_stage == "pups_f" ~ "pups:female",
-    life_stage == "juvenile_f" ~ "juvenile:female",
-    life_stage == "sub_adult_f" ~ "subadult:female",
-    life_stage == "adult_f" ~ "adult:female",
-    life_stage == "old_adult_f" ~ "old_adult:female",
-    life_stage == "unknown_f" ~ "unknown:female",
-    life_stage == "pups_m" ~ "pups:male",
-    life_stage == "juvenile_m" ~ "juvenile:male",
-    life_stage == "sub_adult_m" ~ "subadult:male",
-    life_stage == "adult_m" ~ "adult:male",
-    life_stage == "old_adult_m" ~ "old_adult:male",
-    life_stage == "unknown_m" ~ "unknown:male",
-    life_stage == "pups_u" ~ "pups:unknown",
-    life_stage == "juvenile_u" ~ "juvenile:unknown",
-    life_stage == "sub_adult_u" ~ "subadult:unknown",
-    life_stage == "adult_u" ~ "adult:unknown",
-    life_stage == "old_adult_u" ~ "old_adult:unknown",
-    life_stage == "unknown_u" ~ "unknown:unknown"
+    life_stage == "pups_f" ~ "Pups:female",
+    life_stage == "juvenile_f" ~ "Juvenile:female",
+    life_stage == "sub_adult_f" ~ "Subadult:female",
+    life_stage == "adult_f" ~ "Adult:female",
+    life_stage == "old_adult_f" ~ "Old_adult:female",
+    life_stage == "unknown_f" ~ "Unknown:female",
+    life_stage == "pups_m" ~ "Pups:male",
+    life_stage == "juvenile_m" ~ "Juvenile:male",
+    life_stage == "sub_adult_m" ~ "Subadult:male",
+    life_stage == "adult_m" ~ "Adult:male",
+    life_stage == "old_adult_m" ~ "Old_adult:male",
+    life_stage == "unknown_m" ~ "Unknown:male",
+    life_stage == "pups_u" ~ "Pups:unknown",
+    life_stage == "juvenile_u" ~ "Juvenile:unknown",
+    life_stage == "sub_adult_u" ~ "Subadult:unknown",
+    life_stage == "adult_u" ~ "Adult:unknown",
+    life_stage == "old_adult_u" ~ "Old_adult:unknown",
+    life_stage == "unknown_u" ~ "Unknown:unknown"
   )) %>% 
   separate(life_stage, c("life_stage", "sex"))
 
