@@ -15,7 +15,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                      label = "Choose Life Stage:",
                                                      selected = "pups",
                                                      multiple = TRUE,
-                                                     choices = unique(sea_otter_data$life_stage))),
+                                                     choices = unique(sea_otter_data$life_stage)),
+                                         style = "background-color: azure;"),
                             mainPanel(plotOutput("ls_plot"))
                         )
                         ),
@@ -28,7 +29,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    max = 2014,
                                                    value = 1985,
                                                    animate = TRUE,
-                                                   sep = "")),
+                                                   sep = ""),
+                                       style = "background-color: azure;"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
@@ -44,7 +46,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    step = 1,
                                                    round = TRUE,
                                                    animate = FALSE,
-                                                   dragRange = TRUE)),
+                                                   dragRange = TRUE),
+                                       style = "background-color: azure;"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
@@ -55,7 +58,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    label = "Select Year Range",
                                                    selected = 1985:2014,
                                                    choices = unique(sea_otter_pop$year)
-                                                   )),
+                                                   ),
+                                       style = "background-color: azure;"),
                           mainPanel(plotOutput("census_plot"))
                         )),
                tabPanel("Summary",
@@ -68,7 +72,10 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                     p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
                                     p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
                           sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
-                                       fluid = TRUE)
+                                       fluid = TRUE,
+                                       img(src = "otters_jpg", height = 172, width = 400),
+                                       fluid = TRUE),
+
                ))
 ))
 
