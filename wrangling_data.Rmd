@@ -32,19 +32,19 @@ sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_198
     life_stage == "juvenile_f" ~ "Juvenile:female",
     life_stage == "sub_adult_f" ~ "Subadult:female",
     life_stage == "adult_f" ~ "Adult:female",
-    life_stage == "old_adult_f" ~ "Old_adult:female",
+    life_stage == "old_adult_f" ~ "OldAdult:female",
     life_stage == "unknown_f" ~ "Unknown:female",
     life_stage == "pups_m" ~ "Pups:male",
     life_stage == "juvenile_m" ~ "Juvenile:male",
     life_stage == "sub_adult_m" ~ "Subadult:male",
     life_stage == "adult_m" ~ "Adult:male",
-    life_stage == "old_adult_m" ~ "Old_adult:male",
+    life_stage == "old_adult_m" ~ "OldAdult:male",
     life_stage == "unknown_m" ~ "Unknown:male",
     life_stage == "pups_u" ~ "Pups:unknown",
     life_stage == "juvenile_u" ~ "Juvenile:unknown",
     life_stage == "sub_adult_u" ~ "Subadult:unknown",
     life_stage == "adult_u" ~ "Adult:unknown",
-    life_stage == "old_adult_u" ~ "Old_adult:unknown",
+    life_stage == "old_adult_u" ~ "OldAdult:unknown",
     life_stage == "unknown_u" ~ "Unknown:unknown"
   )) %>% 
   separate(life_stage, c("life_stage", "sex"))
