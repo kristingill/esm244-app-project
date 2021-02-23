@@ -31,6 +31,10 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                      selected = "Pups",
                                                      multiple = TRUE,
                                                      choices = unique(sea_otter_data$life_stage)),
+                                         checkboxGroupInput(inputId = "pick_sex",
+                                                            label = "Pick Sex",
+                                                            choices = unique(sea_otter_data$sex),
+                                                            selected = "female"),
                                          style = "background-color: azure;"),
                             mainPanel(plotOutput("ls_plot"))
                         )
@@ -84,7 +88,8 @@ server <- function(input, output) {
   ls_reactive <- reactive({
 
     sea_otter_data %>%
-      filter(life_stage %in% input$pick_life_stage)
+      filter(life_stage %in% input$pick_life_stage) %>%
+      filter(sex %in% input$pick_sex)
   })
 
   output$ls_plot <- renderPlot(
