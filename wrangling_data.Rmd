@@ -18,6 +18,7 @@ library(rgdal)
 library(sf)
 library(tmap)
 library(lubridate)
+library(RColorBrewer)
 ```
 
 Sea Otter Strandings
@@ -56,17 +57,23 @@ ggplot(data = sea_otter_data, aes(x = year,
 Sea Otter Annual Census
 ```{r}
 census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summary_1985_2014.csv")) %>% 
-  clean_names()
+  clean_names() %>% 
+  mutate(zone_code = case_when(
+    zone_code == "b" ~ "Bay or Slough",
+    zone_code == "n" ~ "Nearshore",
+    zone_code == "o" ~ "Offshore",
+    zone_code == "w" ~ "Way Offshore"
+  ))
 
 sea_otter_pop <- census_sea_otter %>%
   select(year, zone_code) %>% 
-  group_by(year, zone_code) %>% 
   count(year)
+  
 
-sea_otter_pop[is.na(sea_otter_pop)] <- 0
+#sea_otter_pop[is.na(sea_otter_pop)] <- 0
 
-sea_otter_pop %>% 
-  ungroup()
+#sea_otter_pop %>% 
+#  ungroup()
 ```
 
 Stranded Sea Otter by Geographic Location
@@ -128,7 +135,19 @@ tm_shape(locations_sea_otters) +
   tm_polygons("lin_dens", border.alpha = 0) +
   tm_fill("lin_dens") +
   tm_borders(alpha = 0)
+
+pal <- brewer.pal(6,"BuGn")
+pal
 ```
+
+```{r}
+# graphing the 5-year trend
+
+ggplot(data = census_sea_otter, aes(x = year,
+                                    y = trend5yr)) +
+  geom_line()
+```
+
 
 ## Summary
 

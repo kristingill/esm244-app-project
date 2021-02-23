@@ -124,8 +124,9 @@ server <- function(input, output) {
   output$density_plot <- renderTmap(
     tm_shape(density_reactive()) +
       tm_polygons("lin_dens", border.alpha = 0) +
-      tm_fill("lin_dens") +
+      tm_fill("lin_dens", palette = "BuGn") +
       tm_borders(alpha = 0)
+
   )
 
   year_range_reactive <- reactive({
@@ -138,7 +139,6 @@ server <- function(input, output) {
     ggplot(data = year_range_reactive(), aes(x = year, y = n)) +
       geom_line(color = "darkseagreen4") +
       labs(x = NULL, y = "Sea Otter Count") +
-      facet_wrap(~zone_code) +
       theme_minimal()
   )
 
