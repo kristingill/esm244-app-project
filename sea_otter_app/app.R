@@ -56,16 +56,10 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                tabPanel("Population Density Map",
                         sidebarLayout(
                           sidebarPanel("Sea Otter Linear Density",
-                                       sliderInput("range",
-                                                   inputId = "range",
-                                                   label = "Pick a Range",
-                                                   min  = 1,
-                                                   max = 14,
-                                                   value = c(1,14),
-                                                   step = 1,
-                                                   round = TRUE,
-                                                   animate = FALSE,
-                                                   dragRange = TRUE),
+                                       checkboxGroupInput(inputId = "range",
+                                                   label = "Pick a Linear Density",
+                                                   selected = 8:14,
+                                                   choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
                                        style = "background-color: azure;"),
                           mainPanel(tmapOutput("density_plot"))
                         )
@@ -73,11 +67,15 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                tabPanel("Census",
                         sidebarLayout(
                           sidebarPanel("Population Over Time by Zone",
-                                       checkboxGroupInput(inputId = "pick_year_range",
+                                       sliderInput("range",
+                                                   inputId = "range_2",
                                                    label = "Select Year Range",
-                                                   selected = 1985:2014,
-                                                   choices = unique(sea_otter_pop$year)
-                                                   ),
+                                                   min = 1985,
+                                                   max = 2014,
+                                                   value = c(1985,2014),
+                                                   step = 1,
+                                                   dragRange = TRUE,
+                                                   sep = ""),
                                        style = "background-color: azure;"),
                           mainPanel(plotOutput("census_plot"))
                         ))
@@ -123,27 +121,30 @@ server <- function(input, output) {
   density_reactive <- reactive({
 
     locations_sea_otters %>%
-      filter(lin_dens %in% input$range[1]:input$range[2])
+      filter(lin_dens %in% input$range)
   })
 
   output$density_plot <- renderTmap(
     tm_shape(density_reactive()) +
       tm_polygons("lin_dens", border.alpha = 0) +
       tm_fill("lin_dens", palette = "BuGn") +
-      tm_borders(alpha = 0)
+      tm_borders(alpha = 0) +
+      tm_basemap("Esri.WorldTopoMap")
 
   )
 
   year_range_reactive <- reactive({
 
     sea_otter_pop %>%
-      filter(year %in% input$pick_year_range)
+      filter(year %in% input$range_2[1]:input$range_2[2])
   })
 
   output$census_plot <- renderPlot(
-    ggplot(data = year_range_reactive(), aes(x = year, y = n)) +
+    ggplot(data = year_range_reactive(), aes(x = year,
+                                             y = n)) +
       geom_line(color = "darkseagreen4") +
-      labs(x = NULL, y = "Sea Otter Count") +
+      labs(x = "Year",
+           y = "Sea Otter Count") +
       theme_minimal()
   )
 

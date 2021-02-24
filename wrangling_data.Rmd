@@ -68,6 +68,13 @@ census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summa
 sea_otter_pop <- census_sea_otter %>%
   select(year, zone_code) %>% 
   count(year)
+
+ggplot(data = sea_otter_pop, aes(x = year,
+                                             y = n)) +
+      geom_line(color = "darkseagreen4") +
+      labs(x = "Year",
+           y = "Sea Otter Count") +
+      theme_minimal()
   
 
 #sea_otter_pop[is.na(sea_otter_pop)] <- 0
@@ -114,7 +121,7 @@ Sea otter Linear Density
 ```{r}
 locations_sea_otters <- read_sf(here("data", "shapefile_2019", "Census_sum_2019.shp")) %>% 
   clean_names() %>% 
-  mutate_at(vars(lin_dens), funs(round(.,1)))
+  mutate_at(vars(lin_dens), funs(round(.,0)))
 
 
 st_crs(locations_sea_otters)
