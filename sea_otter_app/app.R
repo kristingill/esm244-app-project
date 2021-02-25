@@ -36,7 +36,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                             choices = unique(sea_otter_data$sex),
                                                             selected = "female"),
                                          style = "background-color: powderblue;
-                                                  box-shadow: 2px 4px slategray"),
+                                                  box-shadow: 2px 4px slategray;
+                                                  border: 1px solid darkslategrey"),
                             mainPanel(plotOutput("ls_plot"))
                         )
                         ),
@@ -51,7 +52,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    animate = TRUE,
                                                    sep = ""),
                                        style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray"),
+                                                box-shadow: 2px 4px slategray;
+                                                border: 1px solid darkslategrey"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
@@ -63,7 +65,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    selected = 8:14,
                                                    choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
                                        style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray"),
+                                                box-shadow: 2px 4px slategray;
+                                                border: 1px solid darkslategrey"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
@@ -80,7 +83,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    dragRange = TRUE,
                                                    sep = ""),
                                        style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray"),
+                                                box-shadow: 2px 4px slategray;
+                                                border: 1.5px solid darkslategrey"),
                           mainPanel(plotOutput("census_plot"))
                         ))
 ))
