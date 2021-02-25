@@ -1,10 +1,10 @@
 /* Sea Otters Shiny App Theme */
 
 body {
-  background-color: lightcyan;
+  background-color: whitesmoke;
   font-family: verdana;
   font-size: 16px;
-  color: darkslategray; /* text color */
+  color: darkslategrey; /* text color */
 }
 
 /* Change header text */
@@ -12,6 +12,7 @@ h1, h2, h3 {
   font-family: verdana;
   color: darkslategrey;
   text-align: center;
+  font-size: 16px;
 }
 
 p {
@@ -20,16 +21,21 @@ p {
   color: darkslategrey;
 }
 
-.navbar{ background-color: paleturquoise;
+.navbar{ background-color: powderblue;
                            font-family: verdana;
-                           font-size: 16px;
-                           color: darkslategray;
+                           font-size: 19px;
+                           color: darkslategrey;
+                           border: 1.5px solid darkslategrey;
+                           box-shadow: 4px 8px slategray;
 }
 
-.navbar-default .navbar-brand{color: darkslategray;}
+.navbar-default .navbar-brand{color: darkslategrey;
+                              font-size: 24px;
+                              font-weight: bold;
+}
 
 .navbar-nav li a:hover, .navbar-nav > .active > a {
-color: darkslategray !important;
-background-color: paleturquoise !important;
+color: darkslategrey !important;
+background-color: powderblue !important;
 }
 

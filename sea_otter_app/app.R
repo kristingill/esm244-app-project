@@ -10,11 +10,11 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
     navbarPage("Southern Sea Otters",
                tabPanel("Summary",
                         sidebarLayout(
-                          mainPanel(h2("About the App"),
+                          mainPanel(h1(strong("About the App")),
                                     p("This app helps visualize Southern Sea Otter stranding and linear density data. The data is from the U.S. Geological Survey."),
-                                    h2("Introduction"),
+                                    h1(strong("Introduction")),
                                     p("The Southern Sea Otter (Enhydra lutris nereis) is a threatened and depleted species. Sea otters play an important role in the ecosystem. Sea otters consume sea urchins, which means that the urchins cannot feed on kelp as much. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. Below is a map of the Southern sea otter current range."),
-                                    h3("Data Citation"),
+                                    h2(strong("Data Citation")),
                                     p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
                                     p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
                           sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
@@ -23,9 +23,9 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                        fluid = TRUE),
 
                         )),
-               tabPanel("Strandings by Life Stage",
+               tabPanel("Strandings by Life Stage & Sex",
                         sidebarLayout(
-                            sidebarPanel("Sea Otter Stranding Life Stage",
+                            sidebarPanel("Sea Otter Strandings",
                                          selectInput(inputId = "pick_life_stage",
                                                      label = "Choose Life Stage:",
                                                      selected = "Pups",
@@ -35,13 +35,14 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                             label = "Pick Sex",
                                                             choices = unique(sea_otter_data$sex),
                                                             selected = "female"),
-                                         style = "background-color: azure;"),
+                                         style = "background-color: powderblue;
+                                                  box-shadow: 2px 4px slategray"),
                             mainPanel(plotOutput("ls_plot"))
                         )
                         ),
                tabPanel("Strandings by Location",
                         sidebarLayout(
-                          sidebarPanel("Sea Otter Stranding Location",
+                          sidebarPanel("Sea Otter Stranding Locations",
                                        sliderInput(inputId = "pick_year",
                                                    label = "Slide Over Time",
                                                    min = 1985,
@@ -49,7 +50,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    value = 1985,
                                                    animate = TRUE,
                                                    sep = ""),
-                                       style = "background-color: azure;"),
+                                       style = "background-color: powderblue;
+                                                box-shadow: 2px 4px slategray"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
@@ -60,13 +62,14 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    label = "Pick a Linear Density",
                                                    selected = 8:14,
                                                    choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
-                                       style = "background-color: azure;"),
+                                       style = "background-color: powderblue;
+                                                box-shadow: 2px 4px slategray"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
                tabPanel("Census",
                         sidebarLayout(
-                          sidebarPanel("Population Over Time by Zone",
+                          sidebarPanel("Sea Otter Population Over Time",
                                        sliderInput("range",
                                                    inputId = "range_2",
                                                    label = "Select Year Range",
@@ -76,7 +79,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    step = 1,
                                                    dragRange = TRUE,
                                                    sep = ""),
-                                       style = "background-color: azure;"),
+                                       style = "background-color: powderblue;
+                                                box-shadow: 2px 4px slategray"),
                           mainPanel(plotOutput("census_plot"))
                         ))
 ))
@@ -98,7 +102,9 @@ server <- function(input, output) {
       labs(x = "Time (Years)",
            y = "Number of Sea Otter Strandings",
            title = "Number of Sea Otter Strandings Over Time (1985-2017)") +
-      scale_fill_manual(values = c("#33FFCC", "lightblue", "blue4", "blue2","#66CCCC", "blue3")) +
+      scale_fill_brewer(palette = "Set2") +
+      scale_color_brewer(palette = "Set2") +
+      #scale_fill_manual(values = c("#33FFCC", "lightblue", "blue4", "blue2","#66CCCC", "blue3")) +
       guides(fill=guide_legend(title="Life Stage"))
   )
 
@@ -142,10 +148,11 @@ server <- function(input, output) {
   output$census_plot <- renderPlot(
     ggplot(data = year_range_reactive(), aes(x = year,
                                              y = n)) +
-      geom_line(color = "darkseagreen4") +
+      geom_line(color = "cadetblue4", size = 1.5) +
       labs(x = "Year",
            y = "Sea Otter Count") +
-      theme_minimal()
+      facet_wrap(~zone_code) +
+      theme_bw()
   )
 
 }
