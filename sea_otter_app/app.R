@@ -155,7 +155,7 @@ server <- function(input, output) {
       geom_line(color = "cadetblue4", size = 1.5) +
       labs(x = "Year",
            y = "Sea Otter Count") +
-      facet_wrap(~zone_code) +
+      facet_wrap(~zone_code, scales = "free") +
       theme_bw()
   )
 
