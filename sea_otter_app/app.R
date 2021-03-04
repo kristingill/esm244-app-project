@@ -20,7 +20,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
                                        fluid = TRUE,
                                        img(src = "otters.jpg", height = 172, width = 350),
-                                       fluid = TRUE),
+                                       fluid = TRUE,
+                                       style = "background-color: azure"),
 
                         )),
                tabPanel("Strandings by Life Stage & Sex",
@@ -35,9 +36,9 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                             label = "Pick Sex",
                                                             choices = unique(sea_otter_data$sex),
                                                             selected = "female"),
-                                         style = "background-color: powderblue;
-                                                  box-shadow: 2px 4px slategray;
-                                                  border: 1px solid darkslategrey"),
+                                         style = "background-color: lightcyan;
+                                                  box-shadow: 2px 4px teal;
+                                                  border: 1.5px solid darkslategrey"),
                             mainPanel(plotOutput("ls_plot"))
                         )
                         ),
@@ -51,9 +52,9 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    value = 1985,
                                                    animate = TRUE,
                                                    sep = ""),
-                                       style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray;
-                                                border: 1px solid darkslategrey"),
+                                       style = "background-color: lightcyan;
+                                                box-shadow: 2px 4px teal;
+                                                border: 1.5px solid darkslategrey"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
@@ -64,9 +65,9 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    label = "Pick a Linear Density",
                                                    selected = 8:14,
                                                    choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
-                                       style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray;
-                                                border: 1px solid darkslategrey"),
+                                       style = "background-color: lightcyan;
+                                                box-shadow: 2px 4px teal;
+                                                border: 1.5px solid darkslategrey"),
                           mainPanel(tmapOutput("density_plot"))
                         )
                         ),
@@ -82,8 +83,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    step = 1,
                                                    dragRange = TRUE,
                                                    sep = ""),
-                                       style = "background-color: powderblue;
-                                                box-shadow: 2px 4px slategray;
+                                       style = "background-color: lightcyan;
+                                                box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
                           mainPanel(plotOutput("census_plot"))
                         ))
@@ -103,13 +104,14 @@ server <- function(input, output) {
                                      y = count)) +
       geom_col(aes(fill = life_stage)) +
       theme_minimal() +
-      labs(x = "Time (Years)",
-           y = "Number of Sea Otter Strandings",
-           title = "Number of Sea Otter Strandings Over Time (1985-2017)") +
+      labs(x = NULL,
+           y = "Number of Stranded Sea Otters") +
       scale_fill_brewer(palette = "Set2") +
       scale_color_brewer(palette = "Set2") +
       #scale_fill_manual(values = c("#33FFCC", "lightblue", "blue4", "blue2","#66CCCC", "blue3")) +
-      guides(fill=guide_legend(title="Life Stage"))
+      guides(fill=guide_legend(title="Life Stage")) +
+      theme(axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"))
   )
 
   geog_reactive <- reactive({
@@ -123,9 +125,11 @@ server <- function(input, output) {
     ggplot(data = geog_reactive(), aes(x = reorder(location, count),
                                      y = count)) +
       geom_col(color = "darkslategrey", fill = "darkslategray3") +
-      labs(x = "Location", y = "Number of Stranded Sea Otters") +
+      labs(x = NULL, y = "Number of Stranded Sea Otters") +
       coord_flip() +
-      theme_minimal()
+      theme_minimal() +
+      theme(axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"))
   )
 
   density_reactive <- reactive({
@@ -152,11 +156,13 @@ server <- function(input, output) {
   output$census_plot <- renderPlot(
     ggplot(data = year_range_reactive(), aes(x = year,
                                              y = n)) +
-      geom_line(color = "cadetblue4", size = 1.5) +
-      labs(x = "Year",
+      geom_line(color = "darkslategray4", size = 1.5) +
+      labs(x = NULL,
            y = "Sea Otter Count") +
       facet_wrap(~zone_code, scales = "free") +
-      theme_bw()
+      theme_bw() +
+      theme(axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"))
   )
 
 }
