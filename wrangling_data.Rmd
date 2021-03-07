@@ -4,7 +4,6 @@ author: "Kristin Gill, Larissa Neilson"
 date: "1/24/2021"
 output:
   html_document:
-    theme: darkly
     code_folding: hide
     toc: true
 ---
@@ -48,10 +47,6 @@ sea_otter_data <- read_csv(here("data", "Table2_StrandedSeaOtter_byLifeStage_198
     life_stage == "unknown_u" ~ "Unknown:unknown"
   )) %>% 
   separate(life_stage, c("life_stage", "sex"))
-
-ggplot(data = sea_otter_data, aes(x = year,
-                                  y = count)) +
-      geom_col(aes(fill = "life_stage")) 
 ```
 
 Sea Otter Annual Census
@@ -148,25 +143,18 @@ pal
 ```
 
 ```{r}
-# graphing the 5-year trend
+# Graphing the 5-year trend
 
 ggplot(data = census_sea_otter, aes(x = year,
                                     y = trend5yr)) +
   geom_line()
 ```
 
-
 ## Summary
 
 This app helps visualize Southern Sea Otter stranding and linear density data. The data is from the U.S. Geological Survey.
 
 The Southern Sea Otter (*Enhydra lutris nereis*) is a threatened and depleted species. Sea otters play an important role in the ecosystem. Sea otters consume sea urchins, which means that the urchins cannot feed on kelp as much. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. To the right is a map of the Southern sea otter current range.
-
-```{r}
-#![Southern Sea Otter Range. Image: U.S. Fish and Wildlife](Sea_Otter_Population_Range.png)
-
-#![Sea Otters! Image: Public Domain](otters.jpg)
-```
 
 **Data Citation Annual Sea Otter Census:** Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release.
 
