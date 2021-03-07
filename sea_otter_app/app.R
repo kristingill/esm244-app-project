@@ -19,7 +19,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                     h2(strong("Data Citation")),
                                     p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
                                     p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
-                          sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350),
+                          sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350, style = "display:block; margin-left: auto; margin-right: auto;"),
                                        fluid = TRUE,
                                        style = "background-color: azure"),
                         )
