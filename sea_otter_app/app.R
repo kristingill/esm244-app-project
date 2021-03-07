@@ -23,8 +23,9 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                        fluid = TRUE,
                                        style = "background-color: azure"),
 
-                        )),
-               tabPanel("Strandings by Life Stage & Sex",
+                        )
+                        ),
+               tabPanel("Strandings by Age & Sex",
                         sidebarLayout(
                             sidebarPanel("Sea Otter Strandings",
                                          selectInput(inputId = "pick_life_stage",
@@ -58,19 +59,6 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           mainPanel(plotOutput("geog_plot"))
                         )
                         ),
-               tabPanel("Population Density Map",
-                        sidebarLayout(
-                          sidebarPanel("Sea Otter Linear Density",
-                                       checkboxGroupInput(inputId = "range",
-                                                   label = "Pick a Linear Density",
-                                                   selected = 8:14,
-                                                   choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
-                                       style = "background-color: lightcyan;
-                                                box-shadow: 2px 4px teal;
-                                                border: 1.5px solid darkslategrey"),
-                          mainPanel(tmapOutput("density_plot"))
-                        )
-                        ),
                tabPanel("Census",
                         sidebarLayout(
                           sidebarPanel("Sea Otter Population Over Time",
@@ -87,7 +75,21 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
                           mainPanel(plotOutput("census_plot"))
-                        ))
+                        )
+                        ),
+               tabPanel("Density Map",
+                        sidebarLayout(
+                          sidebarPanel("Sea Otter Linear Density",
+                                       checkboxGroupInput(inputId = "range",
+                                                   label = "Pick a Linear Density",
+                                                   selected = 8:14,
+                                                   choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
+                                       style = "background-color: lightcyan;
+                                                box-shadow: 2px 4px teal;
+                                                border: 1.5px solid darkslategrey"),
+                          mainPanel(tmapOutput("density_plot"))
+                        )
+                        )
 ))
 
 server <- function(input, output) {
@@ -108,7 +110,6 @@ server <- function(input, output) {
            y = "Number of Stranded Sea Otters") +
       scale_fill_brewer(palette = "Set2") +
       scale_color_brewer(palette = "Set2") +
-      #scale_fill_manual(values = c("#33FFCC", "lightblue", "blue4", "blue2","#66CCCC", "blue3")) +
       guides(fill=guide_legend(title="Life Stage")) +
       theme(axis.text = element_text(size = 12),
             axis.title = element_text(size = 14, face = "bold"))
@@ -130,20 +131,6 @@ server <- function(input, output) {
       theme_minimal() +
       theme(axis.text = element_text(size = 12),
             axis.title = element_text(size = 14, face = "bold"))
-  )
-
-  density_reactive <- reactive({
-
-    locations_sea_otters %>%
-      filter(lin_dens %in% input$range)
-  })
-
-  output$density_plot <- renderTmap(
-    tm_shape(density_reactive()) +
-      tm_polygons("lin_dens", border.alpha = 0) +
-      tm_fill("lin_dens", palette = "BuGn") +
-      tm_borders(alpha = 0) +
-      tm_basemap("Esri.WorldTopoMap")
 
   )
 
@@ -165,6 +152,20 @@ server <- function(input, output) {
             axis.title = element_text(size = 14, face = "bold"))
   )
 
+  density_reactive <- reactive({
+
+    locations_sea_otters %>%
+      filter(lin_dens %in% input$range)
+  })
+
+  output$density_plot <- renderTmap(
+    tm_shape(density_reactive()) +
+      tm_polygons("lin_dens", border.alpha = 0) +
+      tm_fill("lin_dens", palette = "BuGn") +
+      tm_borders(alpha = 0) +
+      tm_basemap("Esri.WorldTopoMap")
+
+  )
 }
 
 shinyApp(ui = ui, server = server)
