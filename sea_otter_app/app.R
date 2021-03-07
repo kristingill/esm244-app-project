@@ -24,11 +24,11 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                        style = "background-color: azure"),
                         )
                         ),
-               tabPanel("Strandings by Age & Sex",
+               tabPanel("Strandings by Life Stage & Sex",
                         sidebarLayout(
                             sidebarPanel("Sea Otter Strandings",
                                          selectInput(inputId = "pick_life_stage",
-                                                     label = "Choose Life Stage:",
+                                                     label = "Choose Life Stage",
                                                      selected = "Pups",
                                                      multiple = TRUE,
                                                      choices = unique(sea_otter_data$life_stage)),
@@ -80,7 +80,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                         sidebarLayout(
                           sidebarPanel("Sea Otter Linear Density",
                                        checkboxGroupInput(inputId = "range",
-                                                   label = "Pick a Linear Density",
+                                                   label = "Choose Linear Density",
                                                    selected = 8:14,
                                                    choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
                                        style = "background-color: lightcyan;
