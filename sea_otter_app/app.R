@@ -52,10 +52,13 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    value = 1985,
                                                    animate = TRUE,
                                                    sep = ""),
+                                       p("Press play to animate the graph and see the changes over time. The area with the most strandings will always be at the top of the graph. You can also click on the circle and drag along the time frame to pick a specific year to visualize."),
                                        style = "background-color: lightcyan;
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
-                          mainPanel(plotOutput("geog_plot"))
+                          mainPanel(plotOutput("geog_plot"),
+                                    p("Figure 2: The number of stranded sea otters by geographic location over time. Below is a map with many of the locations shown."),
+                                    img(src = "Sea_Otter_Population_Range.png", height = 600, width = 500, style = "display:block; margin-left: auto; margin-right: auto;"))
                         )
                         ),
                tabPanel("Census",
@@ -78,15 +81,17 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                         ),
                tabPanel("Density Map",
                         sidebarLayout(
-                          sidebarPanel("Sea Otter Linear Density",
+                          sidebarPanel("Sea Otter Linear Density (Otters/km of Coastline)",
                                        checkboxGroupInput(inputId = "range",
                                                    label = "Choose Linear Density",
                                                    selected = 8:14,
                                                    choices = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14)),
+                                       p("Check and Uncheck boxes to visualize sea otter linear densities along the coast. A higher number indicates that more sea otters are present there."),
                                        style = "background-color: lightcyan;
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
-                          mainPanel(tmapOutput("density_plot"))
+                          mainPanel(tmapOutput("density_plot"),
+                                    p("Figure 4: A map of sea otter linear densities. The darker colors indicate higher linear denisites. Hovering over the polygons shows the areas and clicking on the polygons shows the linear densities."))
                         )
                         )
 ))
@@ -125,7 +130,8 @@ server <- function(input, output) {
     ggplot(data = geog_reactive(), aes(x = reorder(location, count),
                                      y = count)) +
       geom_col(color = "darkslategrey", fill = "darkslategray3") +
-      labs(x = NULL, y = "Number of Stranded Sea Otters") +
+      labs(x = NULL,
+           y = "Number of Stranded Sea Otters") +
       coord_flip() +
       theme_minimal() +
       theme(axis.text = element_text(size = 12),
