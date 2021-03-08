@@ -63,19 +63,6 @@ census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summa
 sea_otter_pop <- census_sea_otter %>%
   select(year, zone_code) %>% 
   count(year, zone_code)
-
-ggplot(data = sea_otter_pop, aes(x = year,
-                                             y = n)) +
-      geom_line(color = "darkseagreen4") +
-      labs(x = "Year",
-           y = "Sea Otter Count") +
-      theme_minimal()
-  
-
-#sea_otter_pop[is.na(sea_otter_pop)] <- 0
-
-#sea_otter_pop %>% 
-#  ungroup()
 ```
 
 Stranded Sea Otter by Geographic Location
@@ -124,38 +111,5 @@ st_crs(locations_sea_otters)
 california_cities <- read_sf(here("data", "tl_2016_06_place.shp")) %>%
   clean_names() %>% 
   filter(namelsad == c("Santa Cruz", "Capitola", "Seascape", "Point Lobos", "Cayucos", "Watsonville", "Monterrey", "Carmel", "Santa Barbara"))
-
-st_crs(california_cities)
-
-ggplot() +
-  geom_sf(data = locations_sea_otters, aes(color = zone)) +
-  geom_sf(data = california_cities)
-
-tmap_mode("view")
-
-tm_shape(locations_sea_otters) +
-  tm_polygons("lin_dens", border.alpha = 0) +
-  tm_fill("lin_dens") +
-  tm_borders(alpha = 0)
-
-pal <- brewer.pal(6,"BuGn")
-pal
 ```
 
-```{r}
-# Graphing the 5-year trend
-
-ggplot(data = census_sea_otter, aes(x = year,
-                                    y = trend5yr)) +
-  geom_line()
-```
-
-## Summary
-
-This app helps visualize Southern Sea Otter stranding and linear density data. The data is from the U.S. Geological Survey.
-
-The Southern Sea Otter (*Enhydra lutris nereis*) is a threatened and depleted species. Sea otters play an important role in the ecosystem. Sea otters consume sea urchins, which means that the urchins cannot feed on kelp as much. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. To the right is a map of the Southern sea otter current range.
-
-**Data Citation Annual Sea Otter Census:** Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release.
-
-**Data Citation Sea Otter Strandings:** Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4."
