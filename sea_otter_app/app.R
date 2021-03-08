@@ -13,10 +13,10 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                           mainPanel(h1(strong("About the App")),
                                     p("This app helps visualize Southern Sea Otter stranding data, population data, and linear density data. The data is from the U.S. Geological Survey."),
                                     h1(strong("Introduction")),
-                                    p("The Southern Sea Otter (Enhydra lutris nereis) is a threatened species. Sea otters play an important role in the ecosystem by consuming sea urchins. If left uncontrolled, sea urchins would consume kelp to the point of depleting kelp forests. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. Below is a map of the Southern Sea Otter current range. The Southern Sea Otter range used to extend from Alaska to Baja California, but their population was decimated due to the fur trade. Conservationists and researchers have been working to restore sea otter populations and re-expand their range. Now, sea otters face threats like entanglement, oil spills, and chemical pollution."),
-                                    img(src = "otters.jpg", height = 172, width = 350, style = "display:block; margin-left: auto; margin-right: auto;"),
+                                    p("Southern Sea Otters (Enhydra lutris nereis) have been listed as threatened since 1977 under the Endangered Species Act. Sea otters are a keystone species and play an important role in kelp forest ecosystems by consuming sea urchins. When sea urchin populations grow unchecked, they over-consume kelp and deplete kelp forests. In places where sea otters no longer roam, sea urchins have taken over and eliminated kelp forests, depleting coastal productivity. To the right is a map of the Southern Sea Otter's current range. Historically, their range extended from Alaska to Baja California, but their population was decimated due to the fur trade. Conservationists and researchers have been working to restore sea otter populations and re-expand their range. Now, sea otters face threats like entanglement, oil spills, and chemical pollution. Population data was collected by two-person teams using binoculars and spotting scopes to count individuals from accessible stretches of coastline and from fixed-wing aircraft in the remaining areas."),
+                                    img(src = "otter.jpg", height = 172, width = 350, style = "display:block; margin-left: auto; margin-right: auto;"),
                                     fluid = TRUE,
-                                    h2(strong("Data Citation")),
+                                    h2(strong("Data Citations")),
                                     p("Data Citation Annual Sea Otter Census: Yee, J.L., and Tinker, M.T., 2018, Annual California Sea Otter Census, 1985-2014:U.S. Geological Survey data release."),
                                     p("Data Citation Sea Otter Strandings: Hatfield, B.B., Harris, M.D., Young, C., Ames, J.A., and Tinker, M.T., 2018, Summary of stranded southern sea otters, 1985-2017 (ver. 2.0, September 2018): U.S. Geological Survey data release, https://doi.org/10.5066/F71J98P4")),
                           sidebarPanel(img(src = "Sea_Otter_Population_Range.png", height = 470, width = 350, style = "display:block; margin-left: auto; margin-right: auto;"),
@@ -32,6 +32,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                      selected = "Pups",
                                                      multiple = TRUE,
                                                      choices = unique(sea_otter_data$life_stage)),
+                                         p("Pick a life stage to see that group represented by different colors on the graph. You also have the option to choose otter gender (note: this will only change the count reflected on the graph)"),
                                          checkboxGroupInput(inputId = "pick_sex",
                                                             label = "Pick Sex",
                                                             choices = unique(sea_otter_data$sex),
@@ -39,7 +40,8 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                          style = "background-color: lightcyan;
                                                   box-shadow: 2px 4px teal;
                                                   border: 1.5px solid darkslategrey"),
-                            mainPanel(plotOutput("ls_plot"))
+                            mainPanel(plotOutput("ls_plot"),
+                                      p("Figure 1. The number of stranded sea otters by life stage and sex over time."))
                         )
                         ),
                tabPanel("Strandings by Location",
@@ -73,10 +75,12 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                    step = 1,
                                                    dragRange = TRUE,
                                                    sep = ""),
+                                       p("Move the slider bar to select the year range of choice."),
                                        style = "background-color: lightcyan;
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
-                          mainPanel(plotOutput("census_plot"))
+                          mainPanel(plotOutput("census_plot"),
+                                    p("Figure 3. Sea otter population at four different sites over time."))
                         )
                         ),
                tabPanel("Density Map",
