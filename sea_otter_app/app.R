@@ -160,6 +160,7 @@ server <- function(input, output) {
       geom_line(color = "darkslategray4", size = 1.5) +
       labs(x = NULL,
            y = "Sea Otter Count") +
+      scale_x_continuous(breaks = integer_breaks()) +
       theme_minimal() +
       theme(axis.text = element_text(size = 12),
             axis.title = element_text(size = 14, face = "bold"))

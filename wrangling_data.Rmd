@@ -18,6 +18,7 @@ library(sf)
 library(tmap)
 library(lubridate)
 library(RColorBrewer)
+library(scales)
 ```
 
 Sea Otter Strandings
@@ -63,6 +64,15 @@ census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summa
 sea_otter_pop <- census_sea_otter %>%
   select(year) %>% 
   count(year)
+
+integer_breaks <- function(n = 10, ...) {
+    fxn <- function(x) {
+        breaks <- floor(pretty(x, n, ...))
+        names(breaks) <- attr(breaks, "labels")
+        breaks
+    }
+    return(fxn)
+}
 ```
 
 Stranded Sea Otter by Geographic Location
