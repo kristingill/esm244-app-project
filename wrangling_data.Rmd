@@ -61,8 +61,8 @@ census_sea_otter <- read_csv(here("data", "AnnualCaliforniaSeaOtter_Census_summa
   ))
 
 sea_otter_pop <- census_sea_otter %>%
-  select(year, zone_code) %>% 
-  count(year, zone_code)
+  select(year) %>% 
+  count(year)
 ```
 
 Stranded Sea Otter by Geographic Location
