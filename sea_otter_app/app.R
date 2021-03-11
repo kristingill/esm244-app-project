@@ -121,6 +121,7 @@ server <- function(input, output) {
       theme_minimal() +
       labs(x = NULL,
            y = "Number of Stranded Sea Otters") +
+      scale_x_continuous(breaks = integer_breaks()) +
       scale_fill_brewer(palette = "Set2") +
       scale_color_brewer(palette = "Set2") +
       guides(fill=guide_legend(title="Life Stage")) +
