@@ -85,7 +85,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
                           mainPanel(plotOutput("census_plot"),
-                                    p(strong("Figure 3."), "Sea otter population at four different sites over time (1985-2014)."))
+                                    p(strong("Figure 3."), "Sea otter population over time (1985-2014)."))
                         )
                         ),
                tabPanel("Density Map",
