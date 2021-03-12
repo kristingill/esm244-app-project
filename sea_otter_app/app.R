@@ -37,7 +37,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                      selected = "Pups",
                                                      multiple = TRUE,
                                                      choices = unique(sea_otter_data$life_stage)),
-                                         p("Pick a life stage to see that group represented by different colors on the graph. You also have the option to choose otter gender (note: this will only change the count reflected on the graph)."),
+                                         p("Pick a life stage to see that group represented by different colors on the graph (you can click on the life stage boxes and backspace if you want to remove a group from the graph). You also have the option to choose otter gender (note: this will only change the count reflected on the graph)."),
                                          checkboxGroupInput(inputId = "pick_sex",
                                                             label = "Pick Sex",
                                                             choices = unique(sea_otter_data$sex),
@@ -100,7 +100,7 @@ ui <- fluidPage(includeCSS("www/ocean.css"),
                                                 box-shadow: 2px 4px teal;
                                                 border: 1.5px solid darkslategrey"),
                           mainPanel(tmapOutput("density_plot"),
-                                    p(strong("Figure 4."), "A map of sea otter linear density in 2019. The darker colors indicate higher linear denisites. Hovering over the polygons shows the areas and clicking on the polygons shows the linear densities."))
+                                    p(strong("Figure 4."), "A map of sea otter linear density in 2019. Linear density indicates the number of otters per kilometer of coastline, with darker colors indicating a higher linear density. Hovering over the polygons shows the area in kilometers squared and clicking on the polygons shows the linear densities."))
                         )
                         )
 ))
